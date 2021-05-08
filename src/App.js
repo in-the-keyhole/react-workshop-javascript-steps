@@ -1,6 +1,18 @@
 import React from "react";
 import "./App.css";
 
+function CounterButton() {
+  return (
+    <button
+      onClick={() => {
+        // TODO
+      }}
+    >
+      ?
+    </button>
+  );
+}
+
 function App() {
   const [count, setCount] = React.useState(0);
 
@@ -11,6 +23,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <CounterButton />
         <button
           onClick={() => {
             setCount(count + 1);
