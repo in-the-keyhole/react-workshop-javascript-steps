@@ -29,6 +29,7 @@ function App() {
         >
           -
         </button>
+        {count > 10 ? <p>That's a lot!</p> : null}
       </header>
     </div>
   );
