@@ -10,7 +10,26 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">{count}</header>
+      <header className="App-header">
+        <button
+          onClick={() => {
+            setCount(count + 1);
+            // setCount(currentCount => currentCount + 1);
+          }}
+        >
+          +
+        </button>
+        {count}
+
+        <button
+          onClick={() => {
+            setCount(count - 1);
+            // setCount(currentCount => currentCount + 1);
+          }}
+        >
+          -
+        </button>
+      </header>
     </div>
   );
 }
