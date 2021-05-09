@@ -1,18 +1,23 @@
 import React from "react";
 import "./App.css";
 
-function CounterButton() {
-  return (
-    <button
-      onClick={() => {
-        // TODO
-      }}
-    >
-      ?
-    </button>
-  );
+function CounterButton(props) {
+  return <button onClick={props.handleClick}>{props.children}</button>;
 }
 
+function CounterControls(props) {
+  return (
+    <React.Fragment>
+      <CounterButton handleClick={props.incrementCount}>
+        Increment
+      </CounterButton>
+      {props.count}
+      <CounterButton handleClick={props.decrementCount}>
+        Decrement
+      </CounterButton>
+    </React.Fragment>
+  );
+}
 function App() {
   const [count, setCount] = React.useState(0);
 
@@ -23,25 +28,16 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <CounterButton />
-        <button
-          onClick={() => {
+        <CounterControls
+          count={count}
+          incrementCount={() => {
             setCount(count + 1);
-            // setCount(currentCount => currentCount + 1);
           }}
-        >
-          +
-        </button>
-        {count}
-
-        <button
-          onClick={() => {
+          decrementCount={() => {
             setCount(count - 1);
-            // setCount(currentCount => currentCount + 1);
           }}
-        >
-          -
-        </button>
+        />
+        {count > 10 ? <p>That's a lot!</p> : null}
       </header>
     </div>
   );
