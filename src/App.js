@@ -1,4 +1,6 @@
 import React from "react";
+import { Route, Routes, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import "./App.css";
 
 const CounterContext = React.createContext(undefined);
@@ -31,9 +33,14 @@ function App() {
     setCount(5);
   }, []);
 
-  // React.useEffect(() => {
-  //   console.log("count", count);
-  // }, [count]);
+  let navigate = useNavigate();
+  React.useEffect(() => {
+    console.log("count", count);
+
+    if (count > 10) {
+      navigate(`/status`);
+    }
+  }, [count, navigate]);
 
   return (
     <CounterContext.Provider
@@ -49,16 +56,18 @@ function App() {
     >
       <div className="App">
         <header className="App-header">
-          <CounterControls
-            count={count}
-            incrementCount={() => {
-              setCount(count + 1);
-            }}
-            decrementCount={() => {
-              setCount(count - 1);
-            }}
-          />
-          {count > 10 ? <p>That's a lot!</p> : null}
+          <div style={{ display: "flex", padding: 10 }}>
+            <Link to="/">Home</Link>
+            <div style={{ width: 10 }} />
+            <Link to="/status">Status</Link>
+          </div>
+          <Routes>
+            <Route path="/" element={<CounterControls />} />
+            <Route
+              path="/status"
+              element={count > 10 ? <p>That's a lot!</p> : null}
+            />
+          </Routes>
         </header>
       </div>
     </CounterContext.Provider>
