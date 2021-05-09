@@ -30,7 +30,14 @@ function App() {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    setCount(5);
+    function getCount() {
+      fetch("/number")
+        .then(res => res.json())
+        .then(res => {
+          setCount(res.number);
+        });
+    }
+    getCount();
   }, []);
 
   let navigate = useNavigate();
@@ -38,7 +45,7 @@ function App() {
     console.log("count", count);
 
     if (count > 10) {
-      navigate(`/status`);
+      // navigate(`/status`);
     }
   }, [count, navigate]);
 
