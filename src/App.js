@@ -40,6 +40,21 @@ function App() {
     getCount();
   }, []);
 
+  function sendNumber() {
+    fetch("/number", {
+      method: "post",
+      body: JSON.stringify({ number: count }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res.message);
+      });
+  }
+
   let navigate = useNavigate();
   React.useEffect(() => {
     console.log("count", count);
@@ -64,15 +79,37 @@ function App() {
       <div className="App">
         <header className="App-header">
           <div style={{ display: "flex", padding: 10 }}>
-            <Link to="/">Home</Link>
+            <Link className="App-link" to="/">
+              Home
+            </Link>
             <div style={{ width: 10 }} />
-            <Link to="/status">Status</Link>
+            <Link className="App-link" to="/status">
+              Status
+            </Link>
+            <div style={{ width: 10 }} />
+            <Link className="App-link" to="/send">
+              Send Number
+            </Link>
           </div>
           <Routes>
             <Route path="/" element={<CounterControls />} />
             <Route
               path="/status"
-              element={count > 10 ? <p>That's a lot!</p> : null}
+              element={
+                count > 10 ? (
+                  <p>That's a lot!</p>
+                ) : (
+                  <p>Nothing to see here...</p>
+                )
+              }
+            />
+            <Route
+              path="/send"
+              element={
+                <div style={{ padding: 10 }}>
+                  <button onClick={sendNumber}>Send Current Number</button>
+                </div>
+              }
             />
           </Routes>
         </header>
