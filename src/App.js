@@ -1,18 +1,24 @@
 import React from "react";
 import "./App.css";
 
+const CounterContext = React.createContext(undefined);
+
 function CounterButton(props) {
   return <button onClick={props.handleClick}>{props.children}</button>;
 }
 
 function CounterControls(props) {
+  const context = React.useContext(CounterContext);
+
+  if (!context) return null;
+
   return (
     <React.Fragment>
-      <CounterButton handleClick={props.incrementCount}>
+      <CounterButton handleClick={context.incrementCount}>
         Increment
       </CounterButton>
-      {props.count}
-      <CounterButton handleClick={props.decrementCount}>
+      {context.count}
+      <CounterButton handleClick={context.decrementCount}>
         Decrement
       </CounterButton>
     </React.Fragment>
@@ -25,21 +31,37 @@ function App() {
     setCount(5);
   }, []);
 
+  // React.useEffect(() => {
+  //   console.log("count", count);
+  // }, [count]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <CounterControls
-          count={count}
-          incrementCount={() => {
-            setCount(count + 1);
-          }}
-          decrementCount={() => {
-            setCount(count - 1);
-          }}
-        />
-        {count > 10 ? <p>That's a lot!</p> : null}
-      </header>
-    </div>
+    <CounterContext.Provider
+      value={{
+        count: count,
+        incrementCount: () => {
+          setCount(count + 1);
+        },
+        decrementCount: () => {
+          setCount(count - 1);
+        },
+      }}
+    >
+      <div className="App">
+        <header className="App-header">
+          <CounterControls
+            count={count}
+            incrementCount={() => {
+              setCount(count + 1);
+            }}
+            decrementCount={() => {
+              setCount(count - 1);
+            }}
+          />
+          {count > 10 ? <p>That's a lot!</p> : null}
+        </header>
+      </div>
+    </CounterContext.Provider>
   );
 }
 
